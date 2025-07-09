@@ -1,11 +1,11 @@
-name: Fransys CI for laravel on 11.x
+name: Fransys CI for laravel for block 0197ef45-f925-708d-ba99-f6da8bddd979 on 11.x
 
 on:
   push:
     branches: [ "11.x", "fransys_ci-11.x" ]
 
 env:
-  FRANSYS_REGISTRY: ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}/${{ secrets.FRANSYS_REGISTRY_PROJECT }}/11.x
+  FRANSYS_REGISTRY: ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}/${{ secrets.FRANSYS_REGISTRY_PROJECT }}/0197ef45-f925-708d-ba99-f6da8bddd979
   PHP_VERSION: 8.3
   NPM_BUILD: false
 
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Login to Fransys registry
-        run: docker login -u ${{ secrets.FRANSYS_REGISTRY_11_X_USERNAME }} -p ${{ secrets.FRANSYS_REGISTRY_11_X_PASSWORD }} ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}
+        run: docker login -u ${{ secrets.FRANSYS_REGISTRY_USERNAME }} -p ${{ secrets.FRANSYS_REGISTRY_PASSWORD }} ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}
       - name: Prepare the directory
         run: cp -r /build build
       - name: Prepare variables
@@ -49,7 +49,7 @@ jobs:
     ]
     steps:
       - name: Login to Fransys registry
-        run: crane auth login -u ${{ secrets.FRANSYS_REGISTRY_11_X_USERNAME }} -p ${{ secrets.FRANSYS_REGISTRY_11_X_PASSWORD }} ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}
+        run: crane auth login -u ${{ secrets.FRANSYS_REGISTRY_USERNAME }} -p ${{ secrets.FRANSYS_REGISTRY_PASSWORD }} ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}
       - name: Push the Docker image for latest
         run: crane copy "$FRANSYS_REGISTRY:${{ github.sha }}" "$FRANSYS_REGISTRY:latest"
 
@@ -63,6 +63,6 @@ jobs:
     ]
     steps:
       - name: Login to Fransys registry
-        run: crane auth login -u ${{ secrets.FRANSYS_REGISTRY_11_X_USERNAME }} -p ${{ secrets.FRANSYS_REGISTRY_11_X_PASSWORD }} ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}
+        run: crane auth login -u ${{ secrets.FRANSYS_REGISTRY_USERNAME }} -p ${{ secrets.FRANSYS_REGISTRY_PASSWORD }} ${{ secrets.FRANSYS_REGISTRY_DOMAIN }}
       - name: Push the Docker image for ref
         run: crane copy "$FRANSYS_REGISTRY:${{ github.sha }}" "$FRANSYS_REGISTRY:${{ github.ref_name }}"
